@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerTestScript : MonoBehaviour
+public class PlayerScoringScript : MonoBehaviour
 {
     public Score score;
     public int multiplierStreakOne;
