@@ -1,12 +1,9 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public Button pauseButton;
-    public GameObject pauseMenu;
     public SongObjectScript song;
     public GameObject pauseMenu;
     public Button pauseButton;
