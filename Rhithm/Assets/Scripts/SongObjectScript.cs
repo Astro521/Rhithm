@@ -4,37 +4,30 @@ using UnityEngine;
 
 public class SongObjectScript : MonoBehaviour
 {
-    //public GameObject theSongPanel;
-    //SongDisplayScript songDisplayScript;
     public AudioSource audioSource;
-    public AudioClip audioClip;
-    public string audioName;
+    private AudioClip audioClip;
+    private string audioName;
     public float BPM; //beats per minute
     public float startDelay;
-    public float audioLength;
-    public float difficultyMultiplier;
+    private float audioLength;
+    private float difficultyMultiplier;
     private int highScore; // Added by James
     private string songPerfectScore; //Added by Rafael
 
     // Start is called before the first frame update
     void Start()
     {
-        //audioSource = GameObject.FindGameObjectWithTag("Song").GetComponent<AudioSource>();
         setupSong();
-
-        //songDisplayScript = theSongPanel.GetComponent<SongDisplayScript>();
     }
-    // Update is called once per frame
 
     public void setupSong()
     {
         audioClip = audioSource.clip;
         audioName = audioClip.name;
         audioLength = audioClip.length;
-
+        //audioLength = 10f; //testing purposes
         string savedScoreName = audioName + "_highscore";
         highScore = PlayerPrefs.GetInt(savedScoreName);
-
         string savedPerfectScoreName = audioName + "_perfectscore";
         songPerfectScore = PlayerPrefs.GetString(savedPerfectScoreName);
     }
@@ -73,17 +66,25 @@ public class SongObjectScript : MonoBehaviour
     {
         return audioLength;
     }
-    
+
     public float GetDifficultyMultiplier()
     {
         return difficultyMultiplier;
     }
 
+    public void SetDifficultyMultiplier(float num)
+    {
+        difficultyMultiplier = num;
+    }
+
     public int GetSongHighScore()
     {
+        string savedScoreName = audioName + "_highscore";
+        highScore = PlayerPrefs.GetInt(savedScoreName);
+
         return highScore;
     }
-    
+
     public string GetSongName()
     {
         return audioName;
@@ -91,6 +92,9 @@ public class SongObjectScript : MonoBehaviour
 
     public bool IsPerfectScore()
     {
+        string savedPerfectScoreName = audioName + "_perfectscore";
+        songPerfectScore = PlayerPrefs.GetString(savedPerfectScoreName);
+
         if (songPerfectScore == "true")
         {
             return true;

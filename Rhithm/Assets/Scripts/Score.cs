@@ -17,7 +17,6 @@ public class Score : MonoBehaviour
     public Text multiplierText;
     public SaveSongData songData;
 
-
     void Start()
     {
         score = 0;
@@ -97,7 +96,8 @@ public class Score : MonoBehaviour
     public void calculateHighScore()
     {
         FindHighScore();
-        Debug.Log("Current score: " + score + ", Current High Score: " + highScore);
+
+        Debug.Log("Current score: " + score + ", High Score was: " + highScore);
         if(score > highScore)
         {
             songData.saveHighScore(score);
@@ -109,7 +109,7 @@ public class Score : MonoBehaviour
             //songData.saveHighScore(highScore);
             //return highScore;
         }
-    
+
     }
 
 }

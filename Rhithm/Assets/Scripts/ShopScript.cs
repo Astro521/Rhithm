@@ -51,8 +51,9 @@ public class ShopScript : MonoBehaviour
             //This part is only applicable to the user very first opening of the game
             if (itemName.Equals("PlayerCubeWhite")) //The first playable player model
             {
-                if (!itemScript.IsPurchased()) //If the item has not been purchased (Auto-purchase it for the user)
+                if (PlayerPrefs.GetInt(itemPurchased) == -1 || PlayerPrefs.GetInt(itemPurchased) == 0) //If the item has not been purchased (Auto-purchase it for the user), -1 is key for first time visit
                 {
+                    Debug.Log("scanning [" + PlayerPrefs.GetInt(itemPurchased) + "], This is the users first SHOP visit, final set up...");
                     PlayerPrefs.SetInt(itemPurchased, 1); //Save purchase
                     itemScript.SetPurchased(true);
                     PlayerPrefs.SetInt(itemEquipped, 1); //Auto-equip and save equipped state
@@ -75,8 +76,8 @@ public class ShopScript : MonoBehaviour
                 {
                     itemButton.interactable = true;
                     colors = itemButton.colors;
-                    colors.normalColor = new Color32(115, 115, 115, 255);
-                    itemButtonText.color = new Color32(85, 85, 85, 255);
+                    colors.normalColor = new Color32(75, 75, 75, 255);
+                    itemButtonText.color = new Color32(255, 255, 255, 255);
                     itemButtonText.text = "Equip";
                 }
             } else //If the item has NOT been purchased

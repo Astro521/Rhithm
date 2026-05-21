@@ -28,8 +28,8 @@ public class NoteGenerator : MonoBehaviour
     public SongObjectScript song;
     public float songLength; // The Length of the song being played
     public float startDelay; // Delay of spawning for songs that don't start instantly 
-    float elapsedTime = 0;
-    float previousTime;
+    private float elapsedTime = 0;
+    private float previousTime;
 
     // Score Related
     public Score score; // Score Object
@@ -49,7 +49,7 @@ public class NoteGenerator : MonoBehaviour
     {
         try
         {
-            song = findSong();
+            song = findSong(); // Finds SongObject in scene
             BPM = song.GetBPM(); // Gets selected Song's BPM
             songLength = song.GetAudioLength(); // Gets the song's length in seconds
             secondsPerBeat = 60f / BPM; // Calculates Seconds per Beat
@@ -120,7 +120,7 @@ public class NoteGenerator : MonoBehaviour
             int plotIndex = numPlotted;
             numPlotted++;
 
-            if (pointInfo[i].spectralFlux > largestFlux && (pointInfo[i].spectralFlux / largestFlux) >= 4)
+            if (pointInfo[i].spectralFlux > largestFlux && (pointInfo[i].spectralFlux / largestFlux) >= 4) // If currentFlux is larger than existing largestflux, AND if the currentFlux is 4x larger than the current largestFlux
             {
                 largestFlux = pointInfo[i].spectralFlux;
                 calculateFlux(largestFlux);
@@ -134,49 +134,58 @@ public class NoteGenerator : MonoBehaviour
                 //Debug.Log("SMALLER " + largestFlux);
             }
 
-           if(elapsedTime < songLength - 2.5f)
-           {
-                if (elapsedTime > startDelay)
+            if (elapsedTime < songLength + 2f) // Determines if song is ending
+            {
+                if (elapsedTime > startDelay) // Determines if starting Delay has been completed
                 {
-                    if ((int)(elapsedTime * 100) % ((int)(100 * secondsPerBeat / 4)) == 0 && elapsedTime != previousTime && (elapsedTime - previousTime > secondsPerBeat / difficultyMultiplier))
+                    if ((int)(elapsedTime * 100) % ((int)(100 * secondsPerBeat / 4)) == 0 && elapsedTime != previousTime && (elapsedTime - previousTime > secondsPerBeat / difficultyMultiplier) && (songLength - elapsedTime > 2.5f)) // To prevent multiple notes spawn for each 'beat', as well as stopping spawning prior to audio end
                     {
                         previousTime = elapsedTime;
                         spawnNote(pointInfo[i].spectralFlux);
                     }
 
                 }
-           } else
+            }
+            else
             {
-                StartCoroutine(WaitTime(8));
-
-                if (score.getNoteMissed() == false) // Full Combo's reward
-                {
-                    //Celebrate here
-                    confetti.Play(); // 
-                    Debug.Log("Woop");
-                    songData.savePerfectScore();
-                }
-
-                score.calculateHighScore();
-                Debug.Log(score.getHighScore().ToString());
-                completionUI.displayCompletionUI();
-                songData.CalculateCoins();
-
-                StartCoroutine(WaitTime(3));
-
-                FinalScoreObject = GameObject.Find("FinalScoreObject");
-                FinalScoreObject.transform.SetParent(null);
-                DontDestroyOnLoad(FinalScoreObject);
-
-                GameObject songGameObject = GameObject.FindGameObjectWithTag("Song");
-                Destroy(songGameObject);
-
-                SceneManager.LoadScene("SongListDemo");
+                ending = true;
+                break;
             }
 
 
         }
+
+        if(ending && endingCalled == false)
+        {
+            endingCalled = true;
+            EndGame();
+        }
+        
+
     }
+
+    public void EndGame()
+    {
+
+        if (score.getNoteMissed() == false && confettiCalled == false) // Full Combo's reward
+        {
+            confettiCalled = true;
+            //Celebrate here
+            confetti.Play();
+            Debug.Log("Perfect score received.");
+            songData.savePerfectScore();
+        }
+
+        score.calculateHighScore();
+        Debug.Log(score.getHighScore().ToString());
+        completionUI.displayCompletionUI();
+        songData.CalculateCoins();
+
+        StartCoroutine(WaitToEnd(5));
+
+        
+    }
+
 
     public void spawnNote(float currentFlux)
     {
@@ -187,7 +196,7 @@ public class NoteGenerator : MonoBehaviour
         }
         else if (currentFlux > noteOneFlux && currentFlux <= obstacleFlux)
         {
-            int index = UnityEngine.Random.Range(0, noteSpawnPositions.Length);
+            int index = UnityEngine.Random.Range(0, noteSpawnPositions.Length); // Selects lane for Obstacle to be spawned in
             setNotePosition(obstacle, noteSpawnPositions[index]);
         }
         else if (currentFlux > obstacleFlux && currentFlux < noteTwoFlux * 1.25)
@@ -222,9 +231,18 @@ public class NoteGenerator : MonoBehaviour
         return (SongObjectScript)FindObjectOfType(typeof(SongObjectScript));
     }
 
-    private IEnumerator WaitTime(float time)
+    private IEnumerator WaitToEnd(float time)
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSecondsRealtime(time);
+
+        FinalScoreObject = GameObject.Find("FinalScoreObject");
+        FinalScoreObject.transform.SetParent(null);
+        DontDestroyOnLoad(FinalScoreObject);
+
+        GameObject songGameObject = GameObject.FindGameObjectWithTag("Song");
+        Destroy(songGameObject);
+
+        SceneManager.LoadScene("SongList");
     }
 
 
