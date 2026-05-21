@@ -14,11 +14,19 @@ public class SongDisplayScript : MonoBehaviour
     {
         audioClip = audioSource.clip;
         audioName = audioClip.name;
+        audioTextName.text = audioName;
+    }
+
+    public void OnClickPreviewSong()
+    {
+        audioSource.Play();
+
+        audioSource.SetScheduledEndTime(AudioSettings.dspTime + (10)); //Play for 10 seconds from 0 seconds
     }
 
     // Update is called once per frame
     void Update()
     {
-        audioTextName.text = audioName;
+        
     }
 }
