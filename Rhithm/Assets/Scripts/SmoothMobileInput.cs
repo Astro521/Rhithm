@@ -18,6 +18,11 @@ public class SmoothMobileInput : MonoBehaviour
 
     private const int LeftLane = -2, RightLane = 2, CentreLane = 0;
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 6cc5ef43f5a70a9cb7a1bb8da7c61b6ff3f8d4bb
     // Update is called once per frame
     void Update()
     {
@@ -134,5 +139,8 @@ public class SmoothMobileInput : MonoBehaviour
             transform.position = Vector3.Lerp(startPlayerPos, endPlayerPos, moveTime / moveDuration);
             yield return null;
         }
+
+
     }
+
 }
