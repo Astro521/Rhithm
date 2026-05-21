@@ -46,11 +46,9 @@ public class PauseMenu : MonoBehaviour
     public void Exit()
     {
         song.StopAudio();
-
         GameObject songGameObject = GameObject.FindGameObjectWithTag("Song");
         Destroy(songGameObject);
-
-        SceneManager.LoadScene("SongList");
+        SceneManager.LoadScene("SongListDemo");
         Time.timeScale = 1f;
     }
 

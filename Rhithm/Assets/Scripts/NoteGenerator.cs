@@ -37,15 +37,12 @@ public class NoteGenerator : MonoBehaviour
     public CompletionScript completionUI;
     public GameObject FinalScoreObject;
     public SaveSongData songData;
-    private bool confettiCalled = false;
-    private bool ending = false;
-    private bool endingCalled;
 
     //SpectrumFlux data
-    private float largestFlux = 0f;
-    private float obstacleFlux;
-    private float noteOneFlux;
-    private float noteTwoFlux;
+    float largestFlux = 0f;
+    float obstacleFlux;
+    float noteOneFlux;
+    float noteTwoFlux;
 
     // Start is called before the first frame update
     void Start()
@@ -118,7 +115,7 @@ public class NoteGenerator : MonoBehaviour
 
 
         for (int i = windowStart; i < windowEnd; i++)
-        {
+        { 
 
             int plotIndex = numPlotted;
             numPlotted++;
@@ -130,8 +127,7 @@ public class NoteGenerator : MonoBehaviour
 
                 //Debug.Log("BIGGER " + largestFlux);
 
-            }
-            else if (largestFlux / pointInfo[i].spectralFlux >= 10) // If largestFlux is 10x larger than the currentFlux
+            } else if (largestFlux / pointInfo[i].spectralFlux >= 10)
             {
                 largestFlux = pointInfo[i].spectralFlux;
                 calculateFlux(largestFlux);
@@ -228,7 +224,6 @@ public class NoteGenerator : MonoBehaviour
         noteTwoFlux = fluxDiv * 4;
     }
 
-    
 
 
     private SongObjectScript findSong()

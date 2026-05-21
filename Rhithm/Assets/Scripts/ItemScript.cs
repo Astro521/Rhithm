@@ -9,14 +9,14 @@ public class ItemScript : MonoBehaviour
     public string playerPrefabName;
 
     public int itemPrice;
-    private bool equipped;
-    private bool purchased;
+    public bool equipped;
+    public bool purchased;
     
-    public string getItemName()
+    void Start()
     {
-        return this.gameObject.name;
-    }
 
+    }
+    
     public string GetPrefabLocation()
     {
         playerPrefabLocation = "Prefabs/PlayerPrefabs/" + playerPrefabName;

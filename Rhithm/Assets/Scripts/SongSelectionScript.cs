@@ -23,10 +23,7 @@ public class SongSelectionScript : MonoBehaviour
     public AudioSource buttonClickSound;
 
     public Text highScoreText;
-    public GameObject stars;
-    public GameObject NormalStar;
-    public GameObject HardStar;
-    public GameObject InsaneStar;
+    public GameObject perfectScoreStar;
 
     // Start is called before the first frame update
     void Start()
@@ -182,7 +179,7 @@ public class SongSelectionScript : MonoBehaviour
         currentSong = songs[activeSongCounter];
         songObjectScript = currentSong.GetComponent<SongObjectScript>();
         songObjectScript.setupSong();
-        songNameText.text = songObjectScript.GetSongName();
+        songNameText.text = songObjectScript.audioName;
     }
 
     void ShowSongHighScore()

@@ -93,7 +93,7 @@ public class Score : MonoBehaviour
         return highScore;
     }
 
-    public int calculateHighScore()
+    public void calculateHighScore()
     {
         FindHighScore();
 
@@ -102,12 +102,12 @@ public class Score : MonoBehaviour
         {
             songData.saveHighScore(score);
             highScore = score;
-            return score;
+            //return score;
 
         } else
         {
-            songData.saveHighScore(highScore);
-            return highScore;
+            //songData.saveHighScore(highScore);
+            //return highScore;
         }
 
     }

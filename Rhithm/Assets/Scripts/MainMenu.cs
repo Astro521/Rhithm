@@ -53,4 +53,14 @@ public class MainMenu : MonoBehaviour
     {
         PlayerPrefs.SetInt("Coins", 99999);
     }
+
+    public void Shop()
+    {
+        SceneManager.LoadScene("Shop");
+    }
+
+    public void Credits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
 }

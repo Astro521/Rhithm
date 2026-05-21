@@ -12,6 +12,14 @@ public class ShopScript : MonoBehaviour
 
     void Awake()
     {
+        //PlayerPrefs.SetInt("Coins", 999);
+
+        //PlayerPrefs.SetInt("PlayerCubeWhitePurchased", 0);
+        //PlayerPrefs.SetInt("PlayerCubeWhiteEquipped", 0);
+
+        PlayerPrefs.SetInt("PlayerCubeRedPurchased", 0);
+        PlayerPrefs.SetInt("PlayerCubeRedEquipped", 0);
+
         userCoins = PlayerPrefs.GetInt("Coins");
         SetShop();
     }
@@ -62,6 +70,7 @@ public class ShopScript : MonoBehaviour
                     colors.normalColor = new Color32(185, 185, 185, 255);
                     itemButtonText.color = new Color32(75, 75, 75, 255);
                     itemButtonText.text = "Equipped";
+                    Instantiate(Resources.Load<GameObject>(itemScript.GetPrefabLocation()), itemSect.transform); //load the player model
                 }
                 else //If the item is NOT equipped from previous visit
                 {
