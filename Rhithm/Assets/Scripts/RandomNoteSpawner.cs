@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class RandomNoteSpawner : MonoBehaviour
 {
@@ -25,43 +24,26 @@ public class RandomNoteSpawner : MonoBehaviour
     public GameObject noteThree; // Note Three Prefab
     public GameObject obstacle; // Obstacle Game Object
 
-    // SongObjectScript related
-    public SongObjectScript song;
+    //public Song song; // The Audio Song object being passed from the menu
+    public AudioSource currentSong; // The Song being played
     public float songLength; // The Length of the song being played
     public float currentPlayedTime = 0; // How Long the song has currently been playing for
     public float startDelay; // Delay of spawning for songs that don't start instantly 
 
     public Score score; // Score Object
     public ParticleSystem confetti; // Celebratory particle System
-    public CompletionScript completionUI;
-    public GameObject FinalScoreObject;
-    public SaveSongData songData;
 
     // Start is called before the first frame update
     void Start()
     {
-        try
-        {
-            song = findSong();
-            BPM = song.GetBPM(); // Gets selected Song's BPM
-            Debug.Log(BPM);
-            songLength = song.GetAudioLength(); // Gets the song's length in seconds
-            Debug.Log(songLength);
-            secsPerBeat = 60f / BPM; // Calculates Seconds per Beat
-            noteSpawnPositions = new Vector3[] { noteOneSpawn, noteTwoSpawn, noteThreeSpawn };
-            startDelay = song.GetStartDelay();
-            difficultyMultiplier = song.GetDifficultyMultiplier();
-            song.PlayAudio();
-            StartCoroutine(SpawnNote()); // Starts spawning Method
-        } catch (Exception e) { // Catch for when song doesn't load, spawn objects with no sound (testing purposes only)
-            BPM = 60f;
-            songLength = 60f;
-            secsPerBeat = 60f / BPM; // Calculates Seconds per Beat
-            noteSpawnPositions = new Vector3[] { noteOneSpawn, noteTwoSpawn, noteThreeSpawn };
-            difficultyMultiplier = 4;
-            StartCoroutine(SpawnNote()); // Starts spawning Method
-        }
-
+        //BPM = currentSong.getBPM();
+        currentSong = GetComponent<AudioSource>();
+        songLength = currentSong.clip.length; // Gets the song's length in seconds
+        secsPerBeat = 60f / BPM; // Calculates Seconds per Beat
+        noteSpawnPositions = new Vector3[] { noteOneSpawn, noteTwoSpawn, noteThreeSpawn };
+        //startDelay = currentSong.getStartDelay();
+        //currentSong.play();
+        StartCoroutine(SpawnNote()); // Starts spawning Method
     }
 
     void Update()
@@ -74,17 +56,11 @@ public class RandomNoteSpawner : MonoBehaviour
         Instantiate(note, spawnPosition, Quaternion.identity);
     }
 
-    private SongObjectScript findSong()
-    {
-        return (SongObjectScript)FindObjectOfType(typeof(SongObjectScript));
-    }
-
-
     IEnumerator SpawnNote()
     {
         yield return new WaitForSeconds(startDelay);
 
-        while (songLength - currentPlayedTime > 2.5) // Stops spawning with 2.5s of song remaining
+        while (songLength - currentPlayedTime > 2.5f) // Stops spawning with 2.5s of song remaining
         {
 
             float randomNum = UnityEngine.Random.Range(0.0f, 1.0f);
@@ -127,43 +103,20 @@ public class RandomNoteSpawner : MonoBehaviour
                 { // Spawns Obstacle
                     int index = UnityEngine.Random.Range(0, noteSpawnPositions.Length);
                     Vector3 currPos = noteSpawnPositions[index];
-                    //currPos.y += 0.7f; // Increases the spawn height so that the Obstacle is not in the ground.
+                    currPos.y += 0.7f; // Increases the spawn height so that the Obstacle is not in the ground.
                     createNote(obstacle, currPos);
                 }
             }
         }
 
-        yield return new WaitForSeconds(5.5f);
-
-        if (score.getNoteMissed() == false) // Full Combo's reward
+        if(score.getNoteMissed() == false) // Full Combo's reward
         {
+            yield return new WaitForSeconds(5.5f); // Waits for celebration!
+
             //Celebrate here
             confetti.Play(); // 
-            Debug.Log("You received a perfect score! (no misses)");
-            songData.savePerfectScore();
+            Debug.Log("Woop");
         }
-
-        score.calculateHighScore();
-        //Debug.Log(score.getHighScore().ToString());
-        completionUI.displayCompletionUI();
-        songData.CalculateCoins(); //calculate amount of coins based on score and add to their current amount
-
-        //if (score.getNoteMissed() == false) // Stops celebration
-        //{
-        //    yield return new WaitForSeconds(5f); // GIves time for celebration and to display UI
-        //    confetti.Stop();
-        //}
-
-        yield return new WaitForSeconds(5f);
-
-        FinalScoreObject = GameObject.Find("FinalScoreObject");
-        FinalScoreObject.transform.SetParent(null);
-        DontDestroyOnLoad(FinalScoreObject);
-
-        GameObject songGameObject = GameObject.FindGameObjectWithTag("Song");
-        Destroy(songGameObject);
-
-        SceneManager.LoadScene("SongList");
     }
 
    

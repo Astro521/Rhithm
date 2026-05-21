@@ -8,39 +8,25 @@ public class SongDisplayScript : MonoBehaviour
     public AudioClip audioClip;
     public string audioName;
     public Text audioTextName;
-    public int highScore;
-    public Text highScoreText;
-    public string perfectScore;
-    public GameObject perfectScoreStar;
 
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GameObject.FindGameObjectWithTag("Song").GetComponent<AudioSource>();
-
         audioClip = audioSource.clip;
         audioName = audioClip.name;
-        string savedScoreName = audioName + "_highscore";
-        string savedPerfectScoreName = audioName + "_perfectScore";
+        audioTextName.text = audioName;
+    }
 
-        highScore = PlayerPrefs.GetInt(savedScoreName);
-        perfectScore = PlayerPrefs.GetString(savedPerfectScoreName);
+    public void OnClickPreviewSong()
+    {
+        audioSource.Play();
 
-        perfectScoreStar.SetActive(false);
+        audioSource.SetScheduledEndTime(AudioSettings.dspTime + (10)); //Play for 10 seconds from 0 seconds
     }
 
     // Update is called once per frame
     void Update()
     {
-        audioTextName.text = audioName;
-        highScoreText.text = "Highscore: " + highScore.ToString();
-        if (perfectScore == "true")
-        {
-            perfectScoreStar.SetActive(true);
-        } else
-        {
-            perfectScoreStar.SetActive(false);
-        }
-
+        
     }
 }

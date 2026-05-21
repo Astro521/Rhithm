@@ -4,104 +4,51 @@ using UnityEngine;
 
 public class SongObjectScript : MonoBehaviour
 {
+    //public GameObject theSongPanel;
+    //SongDisplayScript songDisplayScript;
     public AudioSource audioSource;
-    private AudioClip audioClip;
-    private string audioName;
+    public AudioClip audioClip;
     public float BPM; //beats per minute
     public float startDelay;
-    private float audioLength;
-    private float difficultyMultiplier;
-    private int highScore; // Added by James
-    private string songPerfectScore; //Added by Rafael
+    public float audioLength;
+    public float difficultyMultiplier;
 
     // Start is called before the first frame update
     void Start()
     {
-        setupSong();
-    }
-
-    public void setupSong()
-    {
         audioClip = audioSource.clip;
-        audioName = audioClip.name;
         audioLength = audioClip.length;
-        //audioLength = 10f; //testing purposes
-        string savedScoreName = audioName + "_highscore";
-        highScore = PlayerPrefs.GetInt(savedScoreName);
-        string savedPerfectScoreName = audioName + "_perfectscore";
-        songPerfectScore = PlayerPrefs.GetString(savedPerfectScoreName);
-    }
 
-    public AudioSource GetAudioSource()
+        //songDisplayScript = theSongPanel.GetComponent<SongDisplayScript>();
+    }
+    // Update is called once per frame
+    void Update()
     {
-        return audioSource;
+        
     }
 
-    public void PlayAudio()
+    public void playAudio()
     {
         audioSource.Play();
     }
 
-    public void PauseAudio()
+    public void pauseAudio()
     {
         audioSource.Pause();
     }
 
-    public void StopAudio()
-    {
-        audioSource.Stop();
-    }
-
-    public float GetBPM()
+    public float getBPM()
     {
         return BPM;
     }
 
-    public float GetStartDelay()
+    public float getStartDelay()
     {
         return startDelay;
     }
 
-    public float GetAudioLength()
+    public float getAudioLength()
     {
         return audioLength;
-    }
-
-    public float GetDifficultyMultiplier()
-    {
-        return difficultyMultiplier;
-    }
-
-    public void SetDifficultyMultiplier(float num)
-    {
-        difficultyMultiplier = num;
-    }
-
-    public int GetSongHighScore()
-    {
-        string savedScoreName = audioName + "_highscore";
-        highScore = PlayerPrefs.GetInt(savedScoreName);
-
-        return highScore;
-    }
-
-    public string GetSongName()
-    {
-        return audioName;
-    }
-
-    public bool IsPerfectScore()
-    {
-        string savedPerfectScoreName = audioName + "_perfectscore";
-        songPerfectScore = PlayerPrefs.GetString(savedPerfectScoreName);
-
-        if (songPerfectScore == "true")
-        {
-            return true;
-        }
-        else
-        {
-            return false;      
-        }       
     }
 }

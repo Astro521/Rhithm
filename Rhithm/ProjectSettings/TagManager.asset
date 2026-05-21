@@ -9,15 +9,13 @@ TagManager:
   - Red Beat
   - NoteBlock
   - Song
+  - SongObject
+  - SongPanel
   - Note
   - Obstacle
   - ScoreUI
   - ScoreText
   - MultiplierText
-  - Confetti
-  - Slider
-  - Item
-  - PlayerModel
   layers:
   - Default
   - TransparentFX
