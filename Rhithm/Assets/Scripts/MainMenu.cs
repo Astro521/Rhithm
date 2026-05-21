@@ -1,22 +1,18 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject musicVolObj;
-    public GameObject sfxVolObj;
-
-    public void Play()
+    // Start is called before the first frame update
+    void Start()
     {
-        MusicVolObj MusicVolObjScript = musicVolObj.GetComponent<MusicVolObj>();
-        SFXVolObj SFXVolObjScript = sfxVolObj.GetComponent<SFXVolObj>();
+        
+    }
 
-        DontDestroyOnLoad(musicVolObj);
-        DontDestroyOnLoad(sfxVolObj);
-
-        MusicVolObjScript.musicSlider = null;
-        SFXVolObjScript.sfxSlider = null;
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }
