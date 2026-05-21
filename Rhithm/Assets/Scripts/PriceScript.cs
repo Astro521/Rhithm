@@ -41,21 +41,6 @@ public class PriceScript : MonoBehaviour
         itemButtonText = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>(); //get the Text component
         itemScript = itemButton.GetComponentInParent<ItemScript>();
 
-        //priceText = selectedButton.GetComponentInChildren<Text>();
-        //Debug.Log(priceText);
-
-        //if (priceText.text == "Equip")
-        //{
-        //    EquipItem();
-        //}
-        //else if (int.Parse(currencyText.text) >= int.Parse(priceText.text))
-        //{
-        //    ItemBought();
-        //}
-        //else if (int.Parse(currencyText.text) < int.Parse(priceText.text))
-        //{
-        //    insufficientCoins.SetActive(true);
-        //}
         int currency = PlayerPrefs.GetInt("Coins");
         int price = itemScript.itemPrice;
 
@@ -69,7 +54,6 @@ public class PriceScript : MonoBehaviour
         }
         else if ((currency >= price) && (itemButtonText.text == ("$" + price.ToString())))
         {
-            //currency - price;
             currency -= price;
             PlayerPrefs.SetInt("Coins", currency);
             currencyText.text = currency.ToString();
@@ -140,7 +124,6 @@ public class PriceScript : MonoBehaviour
         itemScript = itemButton.GetComponentInParent<ItemScript>();
 
         playerPrefabLocation = itemButton.GetComponentInParent<ItemScript>().GetPrefabLocation();
-        //Instantiate(Resources.Load<GameObject>(playerPrefabLocation), Items.transform);
 
         itemName = itemScript.playerPrefabName;
         itemEquipped = itemName + "Equipped";

@@ -6,18 +6,16 @@ using System;
 
 public class SongSelectionScript : MonoBehaviour
 {
-    //public GameObject musicVolObj;
-
-    public GameObject[] songs; //all the songs
+    private GameObject[] songs; //all the songs
     public GameObject songDatabase;
-    public int numOfSongs;
-    public int activeSongCounter; //the active song counter
+    private int numOfSongs;
+    private int activeSongCounter; //the active song counter
 
     public Text songNameText;
-    public GameObject currentSong;
-    public SongObjectScript songObjectScript;
-    public GameObject SongObject; //the selected song (EmptyObject form)
-    public GameObject selectedAudioSource;
+    private GameObject currentSong;
+    private SongObjectScript songObjectScript;
+    private GameObject SongObject; //the selected song (EmptyObject form)
+    private GameObject selectedAudioSource;
 
     public GameObject songMenu;
     public GameObject difficultyMenu;
@@ -30,20 +28,23 @@ public class SongSelectionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(Resources.Load<AudioSource>("Prefabs/Audio/ABCRemix"), songDatabase.transform);
-        Instantiate(Resources.Load<AudioSource>("Prefabs/Audio/Absence"), songDatabase.transform);
-        Instantiate(Resources.Load<AudioSource>("Prefabs/Audio/Descent"), songDatabase.transform);
-        Instantiate(Resources.Load<AudioSource>("Prefabs/Audio/Interpulse"), songDatabase.transform);
-        Instantiate(Resources.Load<AudioSource>("Prefabs/Audio/PillarsOfCreation"), songDatabase.transform);
-        Instantiate(Resources.Load<AudioSource>("Prefabs/Audio/PianoCommercialSong"), songDatabase.transform);
-
         Debug.Log("Coins: " + PlayerPrefs.GetInt("Coins"));
 
+        InstantiateSongObjects();
         FindSongs();
         AssignCurrentSong();
         ShowSongHighScore();
     }   
     
+    public void InstantiateSongObjects()
+    {
+        songs = Resources.LoadAll<GameObject>("Prefabs/Audio");
+
+        foreach (GameObject song in songs)
+        {
+            Instantiate(song, songDatabase.transform);
+        }
+    }
     public void FindSongs()
     {
         songMenu.SetActive(true);
@@ -133,6 +134,7 @@ public class SongSelectionScript : MonoBehaviour
     {
         currentSong.GetComponent<AudioSource>().clip.LoadAudioData();
         difficultyMenu.SetActive(true);
+        stars.SetActive(false);
         buttonClickSound.Play();
 
         SongObject = currentSong;
@@ -150,15 +152,15 @@ public class SongSelectionScript : MonoBehaviour
 
         if (difficulty == "NORMAL")
         {
-            SongObject.GetComponent<SongObjectScript>().difficultyMultiplier = 1;
+            SongObject.GetComponent<SongObjectScript>().SetDifficultyMultiplier(1f);
         } 
         else if (difficulty == "HARD")
         {
-            SongObject.GetComponent<SongObjectScript>().difficultyMultiplier = 2;
+            SongObject.GetComponent<SongObjectScript>().SetDifficultyMultiplier(2f);
         }
         else if (difficulty == "INSANE")
         {
-            SongObject.GetComponent<SongObjectScript>().difficultyMultiplier = 4;
+            SongObject.GetComponent<SongObjectScript>().SetDifficultyMultiplier(4f);
         }
 
         SongObject.transform.SetParent(null); //destroy parent object
@@ -183,13 +185,57 @@ public class SongSelectionScript : MonoBehaviour
     void ShowSongHighScore()
     {
         highScoreText.text = "Highscore: " + songObjectScript.GetSongHighScore().ToString();
-        if (songObjectScript.IsPerfectScore())
+
+        if (songObjectScript.IsNormalFullCombo())
         {
-            perfectScoreStar.SetActive(true);
+            NormalStar.SetActive(true);
         }
         else
         {
-            perfectScoreStar.SetActive(false);
+            NormalStar.SetActive(false);
         }
+
+        if (songObjectScript.IsHardFullCombo())
+        {
+            HardStar.SetActive(true);
+        }
+        else
+        {
+            HardStar.SetActive(false);
+        }
+
+        if (songObjectScript.IsInsaneFullCombo())
+        {
+          InsaneStar.SetActive(true);
+        }
+        else
+        {
+            InsaneStar.SetActive(false);
+        }
+    }
+
+    public GameObject[] GetSongs()
+    {
+        return songs;
+    }
+
+    public int GetNumOfSongs()
+    {
+        return numOfSongs;
+    }
+
+    public int GetActiveSongCounter()
+    {
+        return activeSongCounter;
+    }
+
+    public void SetActiveSongCounter(int counter)
+    {
+        activeSongCounter = counter;
+    }
+
+    public GameObject GetCurrentSong()
+    {
+        return currentSong;
     }
 }

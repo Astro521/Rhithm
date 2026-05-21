@@ -49,10 +49,26 @@ public class SaveSongData : MonoBehaviour
 
     public void savePerfectScore()
     {
-        string perfectScoreSaveName = songName + "_perfectScore";
-        PlayerPrefs.SetString(perfectScoreSaveName, "true");
-        Debug.Log(PlayerPrefs.GetString(perfectScoreSaveName));
+        string perfectScoreSaveName;
+
+        Debug.Log("difficulty is " + song.GetDifficultyMultiplier());
+
+        if (song.GetDifficultyMultiplier() >= 4f)
+        {
+            perfectScoreSaveName = songName + "_insane_perfectscore";
+            PlayerPrefs.SetString(perfectScoreSaveName, "true");
+        }
+
+        if (song.GetDifficultyMultiplier() >= 2f)
+        {
+            perfectScoreSaveName = songName + "_hard_perfectscore";
+            PlayerPrefs.SetString(perfectScoreSaveName, "true");
+        }
+
+        if (song.GetDifficultyMultiplier() >= 1f)
+        {
+            perfectScoreSaveName = songName + "_normal_perfectscore";
+            PlayerPrefs.SetString(perfectScoreSaveName, "true");
+        }
     }
-
-
 }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
 
-
 public class SmoothMobileInput : MonoBehaviour
 {
     private Vector3 startTouchPos, endTouchPos;
@@ -19,14 +18,16 @@ public class SmoothMobileInput : MonoBehaviour
 
     private const int LeftLane = -2, RightLane = 2, CentreLane = 0;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6cc5ef43f5a70a9cb7a1bb8da7c61b6ff3f8d4bb
     // Update is called once per frame
     void Update()
     {
         lerpComplete = false;
         //UnityEngine.Debug.Log("pos is now " + transform.position.x);
-
 
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
@@ -53,7 +54,6 @@ public class SmoothMobileInput : MonoBehaviour
                 {
                     StartCoroutine(Fly(swipeDelta));
                 }
-
             }
             else
             {
@@ -70,7 +70,6 @@ public class SmoothMobileInput : MonoBehaviour
     public IEnumerator LongFly(float swipeDelta)
     {
         UnityEngine.Debug.Log("swipe delta is " + swipeDelta);
-
 
         if (swipeDelta > 0)
         {
@@ -94,7 +93,6 @@ public class SmoothMobileInput : MonoBehaviour
             // Check if Player is in Left Lane
             if (transform.position.x == LeftLane)
             {
-
                 UnityEngine.Debug.Log("Stepping into 2nd if");
 
                 startPlayerPos = transform.position;
