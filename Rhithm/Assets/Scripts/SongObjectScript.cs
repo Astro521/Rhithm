@@ -12,16 +12,12 @@ public class SongObjectScript : MonoBehaviour
     public float startDelay;
     public float audioLength;
     public float difficultyMultiplier;
-    private int highScore; // Added by James
-    public string audioName;
-    public string songKey;
 
     // Start is called before the first frame update
     void Start()
     {
         audioClip = audioSource.clip;
         audioLength = audioClip.length;
-        audioName = audioClip.name;
 
         //songDisplayScript = theSongPanel.GetComponent<SongDisplayScript>();
     }
@@ -31,62 +27,28 @@ public class SongObjectScript : MonoBehaviour
         
     }
 
-   /* public SongObjectScript(AudioSource song, float songBPM) // Constructor for testing
-    {
-        audioSource = song;
-        audioClip = audioSource.clip;
-        audioLength = audioClip.length;
-        BPM = songBPM;
-
-    } */
-
-    public AudioSource GetAudioSource()
-    {
-        return audioSource;
-    }
-
-    public void PlayAudio()
+    public void playAudio()
     {
         audioSource.Play();
     }
 
-    public void PauseAudio()
+    public void pauseAudio()
     {
         audioSource.Pause();
     }
 
-    public void StopAudio()
-    {
-        audioSource.Stop();
-    }
-
-    public float GetBPM()
+    public float getBPM()
     {
         return BPM;
     }
 
-    public float GetStartDelay()
+    public float getStartDelay()
     {
         return startDelay;
     }
 
-    public float GetAudioLength()
+    public float getAudioLength()
     {
         return audioLength;
-    }
-    
-    public float GetDifficultyMultiplier()
-    {
-        return difficultyMultiplier;
-    }
-
-    public int GetSongHighScore()
-    {
-        return highScore;
-    }
-    
-    public string GetSongName()
-    {
-        return audioName;
     }
 }

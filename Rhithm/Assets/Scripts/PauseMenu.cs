@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
 =======
     public Button pauseButton;
     public GameObject pauseMenu;
+<<<<<<< HEAD
 >>>>>>> Stashed changes
     public SongObjectScript song;
     public GameObject pauseMenu;
@@ -24,13 +25,14 @@ public class PauseMenu : MonoBehaviour
         return (SongObjectScript)FindObjectOfType(typeof(SongObjectScript));
 
     }
+=======
+>>>>>>> 51e964b19cd873c1dd66947dd861373cf0e8b383
 
     public void Resume()
     {
         pauseButton.interactable = true;
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
-        song.PlayAudio();
     }
 
     public void Pause()
@@ -38,18 +40,11 @@ public class PauseMenu : MonoBehaviour
         pauseButton.interactable = false;
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
-        song.PauseAudio();
     }
 
     public void Restart()
     {
-        song.StopAudio();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1f;
-    }
-
-    public void Exit()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }
